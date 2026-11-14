@@ -1,0 +1,16 @@
+[
+  {"code":"HR_REST","name":"Resting heart rate","unit":"bpm","bodySystem":"CARDIOVASCULAR","bandPercent":10,"badDirection":"UP",
+   "absoluteLimit":100,"limitDirection":"ABOVE","source":"illustrative demo threshold","actionCardId":"elevated-hr"},
+  {"code":"HRV","name":"Heart rate variability (RMSSD)","unit":"ms","bodySystem":"CARDIOVASCULAR","bandPercent":15,"badDirection":"DOWN",
+   "absoluteLimit":20,"limitDirection":"BELOW","source":"illustrative demo threshold","actionCardId":"low-hrv"},
+  {"code":"SBP","name":"Systolic blood pressure","unit":"mmHg","bodySystem":"CARDIOVASCULAR","bandPercent":10,"badDirection":"UP",
+   "absoluteLimit":140,"limitDirection":"ABOVE","source":"illustrative demo threshold","actionCardId":"elevated-hr"},
+  {"code":"SLEEP_H","name":"Sleep","unit":"hours","bodySystem":"SLEEP","bandPercent":15,"badDirection":"DOWN",
+   "absoluteLimit":5,"limitDirection":"BELOW","source":"illustrative demo threshold","actionCardId":"sleep-deficit"},
+  {"code":"MOOD","name":"Mood check-in (1–5)","unit":"score","bodySystem":"MENTAL","bandPercent":20,"badDirection":"DOWN",
+   "absoluteLimit":2,"limitDirection":"BELOW","source":"illustrative demo threshold","actionCardId":"sleep-deficit"},
+  {"code":"EXERCISE_MIN","name":"Exercise","unit":"minutes/day","bodySystem":"BONE_MUSCLE","bandPercent":20,"badDirection":"DOWN",
+   "absoluteLimit":60,"limitDirection":"BELOW","source":"illustrative demo threshold","actionCardId":"low-exercise"},
+  {"code":"VISION","name":"Near-vision self-check","unit":"score 0–10","bodySystem":"EYES","bandPercent":10,"badDirection":"DOWN",
+   "absoluteLimit":7,"limitDirection":"BELOW","source":"illustrative demo threshold","actionCardId":"vision-change"}
+]

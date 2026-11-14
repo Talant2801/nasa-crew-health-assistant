@@ -1,0 +1,8 @@
+[
+  {"env":"ISS","label":"ISS (Low Earth Orbit)","doseRateMSvPerDay":0.5,"missionLengthDays":180,"commsDelaySeconds":0,
+   "escalation":"Contact the flight surgeon now via the live link.","doseSource":"NASA: ISS effective dose ~0.2–0.5 mSv/day (PMC10919966)"},
+  {"env":"MOON","label":"Lunar surface","doseRateMSvPerDay":1.37,"missionLengthDays":30,"commsDelaySeconds":1.3,
+   "escalation":"Contact the flight surgeon now (≈1.3 s delay).","doseSource":"Chang'e 4 LND, Zhang et al. 2020, Science Advances: 1369 µSv/day"},
+  {"env":"MARS","label":"Mars transit","doseRateMSvPerDay":1.8,"missionLengthDays":900,"commsDelaySeconds":720,
+   "escalation":"Start the protocol yourself now. Message ground in parallel — reply will take ~24 min round trip.","doseSource":"Curiosity RAD cruise measurement: ~1.8 mSv/day"}
+]
