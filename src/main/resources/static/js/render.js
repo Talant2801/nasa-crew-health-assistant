@@ -122,7 +122,9 @@ export function actionCard(a, mission, crewName) {
           <div class="ac-escalation-meta">${esc(mission.label)} · Comms delay: <b>${commsText(mission.commsDelaySeconds)}</b></div>
         </div>
       </section>
-      <div class="ac-source">Source: ${esc(card.source)}</div>
+      <div class="ac-source">Source: ${card.sourceUrl
+        ? `<a href="${esc(card.sourceUrl)}" target="_blank" rel="noopener noreferrer">${esc(card.source)} ↗</a>`
+        : esc(card.source)}</div>
       <div class="ac-actions">
         <button type="button" class="btn" data-close="modal">Close</button>
         <button type="button" class="btn ${a.severity === 'RED' ? 'btn-danger' : 'btn-primary'}" data-ack="${esc(a.id)}" ${a.acknowledged ? 'disabled' : ''}>
