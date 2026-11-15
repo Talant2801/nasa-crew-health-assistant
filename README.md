@@ -26,6 +26,17 @@ docker build -t crew-health .
 docker run -p 8080:8080 -e PORT=8080 crew-health
 ```
 
+## Deploy
+
+[![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com/deploy?repo=https://github.com/Talant2801/nasa-crew-health-assistant)
+
+The repo includes a Render Blueprint (`render.yaml`): free Docker web service, health check on `/api/health`,
+auto-deploy on push to `main`. Render injects `PORT`; the Dockerfile passes it to Spring Boot.
+The free tier sleeps after ~15 min idle, so the first request can take up to a minute — the frontend shows a
+"Backend waking up" banner and retries automatically. Open the app a minute before demoing.
+
+Any Docker host works the same way (Railway, Fly.io, etc.): build the Dockerfile and set `PORT`.
+
 ## How it works
 
 | Rule | Logic |
