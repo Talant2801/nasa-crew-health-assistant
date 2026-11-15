@@ -8,7 +8,8 @@ against the current submission form before pasting.
 - **Challenge:** [challenge name]
 - **Repository:** https://github.com/Talant2801/nasa-crew-health-assistant
 - **Live demo:** [Render URL]
-- **Demo video / slides:** [link]
+- **Demo video / slides:** [link] — a silent, captioned 30 s cut is ready at `docs/demo/crew-health-demo.mp4`
+  (upload it to YouTube/Drive, or record a voice-over on top using the script below)
 
 ## High-level summary (short)
 

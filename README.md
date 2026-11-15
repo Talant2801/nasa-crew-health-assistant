@@ -11,6 +11,8 @@ There is no LLM anywhere: every status and recommendation comes from transparent
 
 ![Solar particle event: radiation goes RED for the whole crew](docs/screenshots/solar-storm.png)
 
+▶ **[30-second captioned demo video](docs/demo/crew-health-demo.mp4)** (solar storm → action card → switch to Mars)
+
 | Action card after switching to Mars | Module panel with 30-day trend | Phone |
 |---|---|---|
 | ![Action card with Mars escalation](docs/screenshots/action-card-mars.png) | ![Cardiovascular module panel](docs/screenshots/module-panel.png) | ![Phone layout](docs/screenshots/phone.png) |
@@ -61,6 +63,8 @@ Suggested demo (≈60 s): Status (all green, Navarro's HRV drifting) → Demo �
 Radiation tile → with the card open, switch to *Mars* and watch the escalation change to "start the protocol yourself".
 
 The frontend is plain HTML/CSS/ES modules in `src/main/resources/static/` (no build step); Chart.js is the only library.
+Screenshots and the demo video are generated from the running app by `tools/screenshots.mjs` and `tools/record-demo.mjs`
+(headless Chrome; see the header comment of each script).
 
 ## How it works
 
