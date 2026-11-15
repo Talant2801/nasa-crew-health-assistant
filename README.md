@@ -14,7 +14,7 @@ up to a minute while the server wakes up)
 
 ![Solar particle event: radiation goes RED for the whole crew](docs/screenshots/solar-storm.png)
 
-▶ **[30-second captioned demo video](docs/demo/crew-health-demo.mp4)** (solar storm → action card → switch to Mars)
+▶ **[29-second captioned demo video](docs/demo/crew-health-demo.mp4)** (solar storm → action card → switch to Mars)
 
 | Action card after switching to Mars | Module panel with 30-day trend | Phone |
 |---|---|---|
