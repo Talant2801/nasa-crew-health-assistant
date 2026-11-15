@@ -9,6 +9,9 @@ There is no LLM anywhere: every status and recommendation comes from transparent
 
 > **Disclaimer:** Prototype with simulated crew data. Decision-support tool, not a diagnosis. Not a medical device.
 
+**Live demo: https://crew-health-assistant.onrender.com** (free hosting: the first load after a quiet spell can take
+up to a minute while the server wakes up)
+
 ![Solar particle event: radiation goes RED for the whole crew](docs/screenshots/solar-storm.png)
 
 ▶ **[30-second captioned demo video](docs/demo/crew-health-demo.mp4)** (solar storm → action card → switch to Mars)
@@ -36,12 +39,16 @@ docker run -p 8080:8080 -e PORT=8080 crew-health
 
 ## Deploy
 
+Live instance: https://crew-health-assistant.onrender.com
+
 [![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com/deploy?repo=https://github.com/Talant2801/nasa-crew-health-assistant)
 
 The repo includes a Render Blueprint (`render.yaml`): free Docker web service, health check on `/api/health`,
 auto-deploy on push to `main`. Render injects `PORT`; the Dockerfile passes it to Spring Boot.
 The free tier sleeps after ~15 min idle, so the first request can take up to a minute — the frontend shows a
 "Backend waking up" banner and retries automatically. Open the app a minute before demoing.
+State is in memory and shared by everyone using the same instance: a scenario started from the Demo view is seen by
+all viewers until someone presses **Reset**, and a restart (including wake-up from sleep) returns to the baseline.
 
 Any Docker host works the same way (Railway, Fly.io, etc.): build the Dockerfile and set `PORT`.
 
