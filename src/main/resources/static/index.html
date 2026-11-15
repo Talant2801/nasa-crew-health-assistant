@@ -1,5 +1,110 @@
 <!doctype html>
 <html lang="en">
-<head><meta charset="utf-8"><title>Crew Health Assistant</title></head>
-<body><p>Frontend goes here</p></body>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="dark">
+  <title>Crew Health Assistant</title>
+  <link rel="stylesheet" href="css/style.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+  <script type="module" src="js/app.js"></script>
+</head>
+<body>
+  <header class="mission-header">
+    <div class="brand">
+      <span class="brand-mark" aria-hidden="true">✚</span>
+      <h1>Crew Health Assistant</h1>
+    </div>
+    <div class="segmented" role="radiogroup" aria-label="Mission context">
+      <button type="button" role="radio" data-env="ISS">ISS</button>
+      <button type="button" role="radio" data-env="MOON">Moon</button>
+      <button type="button" role="radio" data-env="MARS">Mars</button>
+    </div>
+    <div class="mission-meta">
+      <span id="mission-day" class="meta-chip skeleton-text">Day — of —</span>
+      <span id="comms-delay" class="meta-chip skeleton-text">Comms delay: —</span>
+      <span id="space-weather" class="weather-badge">Space weather: —</span>
+    </div>
+  </header>
+
+  <div id="error-banner" class="error-banner" role="alert" hidden>
+    Backend waking up — first load can take ~1 min. Retrying automatically…
+  </div>
+
+  <div class="shell">
+    <nav class="sidebar" aria-label="Main">
+      <button type="button" class="nav-item active" data-view="status"><span class="nav-icon" aria-hidden="true">◉</span><span>Status</span></button>
+      <button type="button" class="nav-item" data-view="alerts"><span class="nav-icon" aria-hidden="true">⚠</span><span>Alerts</span><span id="alert-count" class="count-badge" hidden>0</span></button>
+      <button type="button" class="nav-item" data-view="trends"><span class="nav-icon" aria-hidden="true">📈</span><span>Trends</span></button>
+      <button type="button" class="nav-item" data-view="demo"><span class="nav-icon" aria-hidden="true">▶</span><span>Demo</span></button>
+    </nav>
+
+    <main class="content">
+      <section id="view-status" class="view active" aria-label="Crew status">
+        <div id="crew-strip" class="crew-strip">
+          <div class="crew-card skeleton"></div><div class="crew-card skeleton"></div><div class="crew-card skeleton"></div>
+        </div>
+        <div id="tile-grid" class="tile-grid">
+          <div class="tile skeleton"></div><div class="tile skeleton"></div><div class="tile skeleton"></div>
+          <div class="tile skeleton"></div><div class="tile skeleton"></div><div class="tile skeleton"></div>
+        </div>
+      </section>
+
+      <section id="view-alerts" class="view" aria-label="Alerts">
+        <h2 class="view-title">Alerts <span id="alerts-for" class="muted"></span></h2>
+        <div id="alert-list" class="alert-list"></div>
+      </section>
+
+      <section id="view-trends" class="view" aria-label="Trends">
+        <h2 class="view-title">Trends</h2>
+        <div class="trend-controls">
+          <label>Astronaut <select id="trend-crew"></select></label>
+          <label>Indicator <select id="trend-indicator"></select></label>
+        </div>
+        <div id="trend-legend" class="chart-legend"></div>
+        <div class="chart-box chart-box-lg"><canvas id="trend-chart"></canvas></div>
+      </section>
+
+      <section id="view-demo" class="view" aria-label="Demo scenarios">
+        <h2 class="view-title">Demo scenarios</h2>
+        <p class="muted">Each scenario changes the in-memory simulation; every screen refreshes immediately.</p>
+        <div class="demo-grid">
+          <button type="button" class="demo-btn demo-red" data-scenario="solar-storm">
+            <span class="demo-icon" aria-hidden="true">☀</span><strong>Solar storm</strong>
+            <span>Replay a real solar particle event from NASA DONKI (Sep 2017)</span>
+          </button>
+          <button type="button" class="demo-btn demo-amber" data-scenario="sleep-deficit">
+            <span class="demo-icon" aria-hidden="true">☾</span><strong>Sleep deficit</strong>
+            <span>3 short nights and falling mood for the commander</span>
+          </button>
+          <button type="button" class="demo-btn demo-neutral" data-scenario="reset">
+            <span class="demo-icon" aria-hidden="true">↺</span><strong>Reset</strong>
+            <span>Back to ISS, day 30, quiet space weather, fresh crew data</span>
+          </button>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <footer class="footer">
+    Prototype with simulated crew data · Decision-support tool, not a diagnosis · Not a medical device · Space weather: NASA DONKI
+  </footer>
+
+  <aside id="panel" class="panel" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="panel-title">
+    <div class="panel-inner">
+      <div class="panel-head">
+        <h2 id="panel-title">Module</h2>
+        <button type="button" class="icon-btn" data-close="panel" aria-label="Close panel">✕</button>
+      </div>
+      <div id="panel-body" class="panel-body"></div>
+    </div>
+  </aside>
+
+  <div id="modal" class="modal" aria-hidden="true">
+    <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="ac-title" id="modal-card"></div>
+  </div>
+
+  <div id="backdrop" class="backdrop" hidden></div>
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+</body>
 </html>
