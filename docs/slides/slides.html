@@ -1,0 +1,178 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Crew Health Assistant — slides</title>
+<!-- Build: google-chrome --headless=new --no-pdf-header-footer --print-to-pdf=crew-health-assistant-slides.pdf slides.html -->
+<style>
+  @page { size: 1280px 720px; margin: 0; }
+  :root { --bg: #0b1020; --panel: #121a2e; --line: #23304d; --text: #e8eefc; --muted: #9fb3d1;
+          --green: #22c55e; --amber: #f59e0b; --red: #ef4444; --blue: #60a5fa; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { background: var(--bg); color: var(--text); font-family: "Noto Sans", "DejaVu Sans", system-ui, sans-serif;
+               -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  .slide { width: 1280px; height: 720px; padding: 56px 64px; position: relative; overflow: hidden;
+           page-break-after: always; break-after: page; display: flex; flex-direction: column; }
+  .slide:last-child { page-break-after: auto; break-after: auto; }
+  .kicker { color: var(--blue); font-size: 17px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; }
+  h1 { font-size: 64px; line-height: 1.05; margin: 14px 0 18px; }
+  h2 { font-size: 40px; line-height: 1.15; margin: 10px 0 26px; }
+  p, li { font-size: 22px; line-height: 1.45; color: var(--text); }
+  .muted { color: var(--muted); }
+  ul { list-style: none; display: grid; gap: 14px; }
+  li { padding-left: 30px; position: relative; }
+  li::before { content: ""; position: absolute; left: 4px; top: 12px; width: 11px; height: 11px; border-radius: 50%; background: var(--blue); }
+  li.g::before { background: var(--green); } li.a::before { background: var(--amber); } li.r::before { background: var(--red); }
+  b { color: #fff; }
+  .row { display: flex; gap: 40px; flex: 1; min-height: 0; }
+  .col { flex: 1; min-width: 0; display: flex; flex-direction: column; justify-content: center; }
+  .shot { border: 1px solid var(--line); border-radius: 14px; box-shadow: 0 18px 50px rgba(0,0,0,.45); display: block; }
+  .foot { position: absolute; left: 64px; right: 64px; bottom: 22px; display: flex; justify-content: space-between;
+          font-size: 14px; color: var(--muted); }
+  .pill { display: inline-block; padding: 6px 14px; border-radius: 999px; font-size: 16px; font-weight: 700; margin-right: 8px; }
+  .pg { background: rgba(34,197,94,.15); color: var(--green); } .pa { background: rgba(245,158,11,.15); color: var(--amber); }
+  .pr { background: rgba(239,68,68,.15); color: var(--red); }
+  .card { background: var(--panel); border: 1px solid var(--line); border-radius: 14px; padding: 18px 22px; }
+  .card h3 { font-size: 20px; margin-bottom: 6px; } .card p { font-size: 18px; color: var(--muted); }
+  .grid3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+  .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .big { font-size: 26px; }
+  a { color: var(--blue); text-decoration: none; }
+</style>
+</head>
+<body>
+
+<!-- 1. Title -->
+<section class="slide">
+  <div class="row">
+    <div class="col" style="flex: 0 0 560px;">
+      <div class="kicker">NASA Space Apps Challenge 2026</div>
+      <h1>Crew Health Assistant</h1>
+      <p class="big muted" style="margin-bottom: 34px;">Personal-baseline health checks and mission-aware guidance that astronauts can act on themselves.</p>
+      <p><b>Challenge:</b> Create Health Monitoring Software for Astronauts on Space Missions</p>
+      <p style="margin-top: 12px;"><b>Team:</b> {{TEAM}}</p>
+      <p><b>Members:</b> {{MEMBERS}}</p>
+    </div>
+    <div class="col"><img class="shot" src="../screenshots/status.png" style="width: 100%;" alt="Status view"></div>
+  </div>
+  <div class="foot"><span>crew-health-assistant.onrender.com</span><span>Simulated crew data · decision support, not a diagnosis</span></div>
+</section>
+
+<!-- 2. Problem -->
+<section class="slide">
+  <div class="kicker">The problem</div>
+  <h2>The further crews go, the more they must spot health problems themselves</h2>
+  <div class="row">
+    <div class="col" style="justify-content: flex-start;">
+      <ul>
+        <li>NASA's Human Research Program names five hazards: <b>radiation, isolation, distance from Earth, altered gravity, closed environments</b>.</li>
+        <li>They show up slowly: heart and blood-pressure changes, poor sleep, low mood, bone and muscle loss, vision changes.</li>
+        <li>On the ISS a flight surgeon is a live call away. In Mars transit a reply takes <b>~24 minutes</b>.</li>
+        <li>Tired crew need a <b>quick, trustworthy read</b> of their own status and <b>clear next steps</b>, not raw numbers.</li>
+      </ul>
+    </div>
+  </div>
+  <div class="foot"><span>Crew Health Assistant</span><span>2 / 7</span></div>
+</section>
+
+<!-- 3. Solution -->
+<section class="slide">
+  <div class="kicker">Our solution</div>
+  <h2>Each astronaut, compared with their own baseline</h2>
+  <div class="row">
+    <div class="col" style="flex: 0 0 640px;"><img class="shot" src="../screenshots/solar-storm.png" style="width: 100%;" alt="Status view during a solar particle event"></div>
+    <div class="col">
+      <ul>
+        <li class="g">Six body systems per astronaut: heart, sleep, mood, bone &amp; muscle, eyes, radiation.</li>
+        <li class="a"><b>AMBER</b> when a value leaves the astronaut's own ± band or drifts the wrong way 3 days in a row.</li>
+        <li class="r"><b>RED</b> when it crosses a safety limit or a solar storm hits.</li>
+        <li>Plain-language summary on every tile: “HRV 46.8 ms — 10% below your baseline of 52.”</li>
+      </ul>
+    </div>
+  </div>
+  <div class="foot"><span>Crew Health Assistant</span><span>3 / 7</span></div>
+</section>
+
+<!-- 4. User experience -->
+<section class="slide">
+  <div class="kicker">User experience</div>
+  <h2>Every alert becomes an action card</h2>
+  <div class="row">
+    <div class="col" style="flex: 0 0 470px; justify-content: flex-start;">
+      <img class="shot" src="../screenshots/action-card-mars.png" style="width: 100%; height: 470px; object-fit: cover; object-position: center 22%;" alt="Action card with Mars escalation">
+    </div>
+    <div class="col" style="justify-content: flex-start;">
+      <ul>
+        <li><b>What's happening</b> and <b>why it matters in space</b>, in plain words.</li>
+        <li>2–3 numbered <b>Do now</b> steps with big text and big buttons for use in microgravity.</li>
+        <li><b>Mission-aware escalation:</b> switch ISS → Mars and the card changes from “call the flight surgeon” to “start the protocol yourself, message ground in parallel”.</li>
+        <li>Each card links the <b>NASA source</b> it is based on.</li>
+        <li>Tablet-first, works on a phone; tap any tile for a 30-day trend chart with the baseline band.</li>
+      </ul>
+    </div>
+  </div>
+  <div class="foot"><span>Crew Health Assistant</span><span>4 / 7</span></div>
+</section>
+
+<!-- 5. NASA data -->
+<section class="slide">
+  <div class="kicker">NASA data that makes it possible</div>
+  <h2>Grounded in NASA data and standards</h2>
+  <div class="grid2" style="flex: 1; align-content: start;">
+    <div class="card"><h3>NASA DONKI space weather</h3><p>Replays the real 4 Sep 2017 solar particle event; radiation turns RED for the whole crew and opens the storm-shelter card.</p></div>
+    <div class="card"><h3>NASA-STD-3001 Vol 1 Rev C</h3><p>600 mSv career dose limit, &lt;250 mSv design solar event, ALARA; exercise, muscle and bone requirements.</p></div>
+    <div class="card"><h3>OCHMO technical briefs</h3><p>Radiation protection (storm shelter), exercise, sleep accommodations, behavioral health: the basis of the “Do now” steps.</p></div>
+    <div class="card"><h3>Human Research Program risks</h3><p>Cardiovascular adaptations, sleep and schedules, SANS vision changes: the “why it matters in space” text.</p></div>
+    <div class="card"><h3>Mission dose rates</h3><p>ISS ~0.5 mSv/day, lunar surface 1.37 mSv/day (Chang'e 4), Mars transit 1.8 mSv/day (Curiosity RAD).</p></div>
+    <div class="card"><h3>Transparent by design</h3><p>All thresholds, cards and missions live in JSON data files. No AI at runtime; every status can be traced to a rule.</p></div>
+  </div>
+  <div class="foot"><span>Crew Health Assistant</span><span>5 / 7</span></div>
+</section>
+
+<!-- 6. How it's built -->
+<section class="slide">
+  <div class="kicker">How it works</div>
+  <h2>A small, explainable system</h2>
+  <div class="row">
+    <div class="col" style="justify-content: flex-start;">
+      <div class="grid3">
+        <div class="card"><h3>Rule engine</h3><p>Personal ± bands, 3-day trend checks, absolute limits. Worst indicator sets the module; worst module sets the astronaut.</p></div>
+        <div class="card"><h3>Radiation model</h3><p>Mission day × published dose rate, projected to mission end, plus the replayed solar event.</p></div>
+        <div class="card"><h3>Mission context</h3><p>ISS / Moon / Mars changes comms delay, dose rate and escalation wording live.</p></div>
+      </div>
+      <p style="margin-top: 30px;"><b>Built with</b> Java 21 · Spring Boot · HTML/CSS/JavaScript · Chart.js · Docker · Render.
+        13 automated tests. Deterministic simulated crew (fixed seed).</p>
+      <p class="muted" style="margin-top: 14px; font-size: 18px;">Code written with AI assistance (Claude Code) and reviewed by the team. Screenshots are of the real app.</p>
+    </div>
+    <div class="col" style="flex: 0 0 230px;"><img class="shot" src="../screenshots/phone.png" style="width: 100%;" alt="Phone layout"></div>
+  </div>
+  <div class="foot"><span>Crew Health Assistant</span><span>6 / 7</span></div>
+</section>
+
+<!-- 7. Future + links -->
+<section class="slide">
+  <div class="kicker">What's next</div>
+  <h2>From prototype to a crew tablet</h2>
+  <div class="row">
+    <div class="col" style="justify-content: flex-start;">
+      <ul>
+        <li>Crew self-entry and wearable feeds instead of simulated data.</li>
+        <li>Measurement reminders built into the daily schedule.</li>
+        <li>Thresholds reviewed by flight surgeons; more indicators (temperature, blood glucose).</li>
+        <li>Fully offline on the spacecraft, syncing with ground when the link allows.</li>
+      </ul>
+    </div>
+    <div class="col" style="flex: 0 0 470px; justify-content: flex-start;">
+      <div class="card" style="padding: 26px;">
+        <h3 style="font-size: 22px; margin-bottom: 14px;">Try it</h3>
+        <p style="color: var(--text);"><b>Live app</b><br><a href="https://crew-health-assistant.onrender.com">crew-health-assistant.onrender.com</a></p>
+        <p style="color: var(--text); margin-top: 14px;"><b>Code</b><br><a href="https://github.com/Talant2801/nasa-crew-health-assistant">github.com/Talant2801/nasa-crew-health-assistant</a></p>
+        <p style="margin-top: 14px; font-size: 16px;">Open Demo → Solar storm, tap the Radiation tile, then switch to Mars.</p>
+      </div>
+    </div>
+  </div>
+  <div class="foot"><span>Prototype with simulated crew data · decision support, not a diagnosis · not a medical device</span><span>7 / 7</span></div>
+</section>
+
+</body>
+</html>

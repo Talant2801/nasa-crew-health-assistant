@@ -28,8 +28,10 @@ can be done clearly and safely.
 
 ## Link to Project Demo
 
-[YouTube / Drive link to docs/demo/crew-health-demo.mp4 — 29.4 s, captioned, no audio]
-(GitHub copy: https://github.com/Talant2801/nasa-crew-health-assistant/blob/main/docs/demo/crew-health-demo.mp4)
+Pick ONE (the rules allow a ≤30 s video OR ≤7 slides; over the limit = not eligible for Global Judging):
+- Video (recommended): [YouTube unlisted link to docs/demo/crew-health-demo.mp4 — 29.4 s, captioned, no audio]
+- Slides (7, PDF): https://github.com/Talant2801/nasa-crew-health-assistant/blob/main/docs/slides/crew-health-assistant-slides.pdf
+  (title slide still shows [team name] / [member names]; regenerate from docs/slides/slides.html once known)
 
 ## Link to Final Project
 
