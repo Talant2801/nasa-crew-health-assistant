@@ -9,6 +9,12 @@ There is no LLM anywhere: every status and recommendation comes from transparent
 
 > **Disclaimer:** Prototype with simulated crew data. Decision-support tool, not a diagnosis. Not a medical device.
 
+![Solar particle event: radiation goes RED for the whole crew](docs/screenshots/solar-storm.png)
+
+| Action card after switching to Mars | Module panel with 30-day trend | Phone |
+|---|---|---|
+| ![Action card with Mars escalation](docs/screenshots/action-card-mars.png) | ![Cardiovascular module panel](docs/screenshots/module-panel.png) | ![Phone layout](docs/screenshots/phone.png) |
+
 ## Run
 
 Requires Java 21+.
@@ -36,6 +42,25 @@ The free tier sleeps after ~15 min idle, so the first request can take up to a m
 "Backend waking up" banner and retries automatically. Open the app a minute before demoing.
 
 Any Docker host works the same way (Railway, Fly.io, etc.): build the Dockerfile and set `PORT`.
+
+## Using the app
+
+Open http://localhost:8080 (or the deployed URL).
+
+- **Mission header** (always visible): switch ISS / Moon / Mars; shows mission day, comms delay and space weather.
+- **Status**: one card per astronaut, then one tile per body system for the selected astronaut —
+  Radiation (estimate), Cardiovascular, Bone & Muscle, Sleep, Mental (self-check), Eyes (self-check).
+  Click a tile for the 30-day chart with the personal baseline band and safety limit.
+- **Action card**: what is happening, why it matters in space, numbered "Do now" steps, mission-specific
+  escalation and the cited NASA source. Switch the mission while a card is open and the escalation updates live.
+- **Alerts**: everything AMBER/RED for the selected astronaut plus crew-wide alerts, RED first.
+- **Trends**: any astronaut × indicator, 30 days.
+- **Demo**: one-click scenarios for judges — solar storm, sleep deficit, reset.
+
+Suggested demo (≈60 s): Status (all green, Navarro's HRV drifting) → Demo → *Solar storm* → click the red
+Radiation tile → with the card open, switch to *Mars* and watch the escalation change to "start the protocol yourself".
+
+The frontend is plain HTML/CSS/ES modules in `src/main/resources/static/` (no build step); Chart.js is the only library.
 
 ## How it works
 
@@ -79,12 +104,27 @@ Crew ids: `ortiz`, `navarro`, `sato`. Unknown astronaut / indicator / scenario �
   `data/donki-sep.json` is a cached response of
   `GET https://api.nasa.gov/DONKI/SEP?startDate=2017-09-01&endDate=2017-09-30` (September 2017 events).
   The app replays the first event; it **never** calls the live API at runtime.
-- **NASA-STD-3001 Volume 1** (NASA Space Flight Human-System Standard) — career effective dose limit 600 mSv [V1 4030] and short-term/SPE limit 250 mSv [V1 4031].
+- **[NASA-STD-3001 Volume 1, Rev C](https://standards.nasa.gov/sites/default/files/standards/NASA/C//nasa-std-3001-vol-1-rev-c-signature.pdf)**
+  (NASA Spaceflight Human-System Standard, 2023) — career effective dose < 600 mSv [V1 4030];
+  protection from the design-reference solar particle event to < 250 mSv [V1 4031]; ALARA [V1 4029].
 - **Dose rates** (`data/missions.json`):
-  - ISS: NASA, ISS effective dose ~0.2–0.5 mSv/day (PMC10919966)
-  - Lunar surface: Chang'e 4 Lunar Lander Neutron & Dosimetry (LND), Zhang et al. 2020, *Science Advances* — 1369 µSv/day
-  - Mars transit: Curiosity RAD cruise measurement — ~1.8 mSv/day
-- Indicator absolute limits are **illustrative demo thresholds**, not clinical values. Action-card text is placeholder content pending review.
+  - ISS: ~0.2–0.5 mSv/day — [Space agency-specific standards for crew dose… ISS, *Z Med Phys* 2024 (PMC10919966)](https://pmc.ncbi.nlm.nih.gov/articles/PMC10919966/)
+  - Lunar surface: 1369 µSv/day — [Zhang et al. 2020, "First measurements of the radiation dose on the lunar surface", *Science Advances*](https://doi.org/10.1126/sciadv.aaz1334) (Chang'e 4 LND)
+  - Mars transit: ~1.8 mSv/day — [Zeitlin et al. 2013, *Science*](https://doi.org/10.1126/science.1235989) (Curiosity RAD cruise)
+- **Action cards** (`data/action-cards.json`) summarise these NASA documents; each card links its source in the app:
+
+  | Card | Source |
+  |---|---|
+  | Solar particle event — take shelter | [NASA-STD-3001 Technical Brief OCHMO-TB-020, Radiation Protection](https://www.nasa.gov/wp-content/uploads/2023/03/radiation-protection-technical-brief-ochmo.pdf) |
+  | Projected dose above career limit | NASA-STD-3001 Vol 1 Rev C [V1 4029], [V1 4030] |
+  | Heart rate / blood pressure above baseline | [NASA HRP — Risk of Cardiovascular Adaptations](https://www.nasa.gov/reference/risk-of-cardiovascular-adaptations/) |
+  | Low heart rate variability | [NASA HRP — Risk from Inadequate Sleep and Irregular Schedules](https://www.nasa.gov/reference/risk-from-inadequate-sleep-and-irregular-schedules/) |
+  | Sleep deficit / low mood | [NASA-STD-3001 Technical Brief, Sleep Accommodations](https://www.nasa.gov/wp-content/uploads/2023/03/sleep-accomodations-technical-brief-ochmo.pdf); [OCHMO-TB-014 Behavioral Health Mishaps](https://www.nasa.gov/wp-content/uploads/2023/03/behavioral-health-mishaps-technical-brief-ochmo-1.pdf) |
+  | Exercise below target | [NASA-STD-3001 Technical Brief OCHMO-TB-031, Exercise Overview](https://www.nasa.gov/wp-content/uploads/2023/12/ochmo-tb-031-exercise-overview.pdf) |
+  | Change in near vision | [NASA HRP — Risk of Spaceflight Associated Neuro-ocular Syndrome (SANS)](https://www.nasa.gov/reference/risk-of-spaceflight-associated-neuro-ocular-syndrome-sans/) |
+
+  The "Do now" steps are general self-care and reporting actions written by the team from these sources — they are not NASA flight rules or clinical protocols.
+- Indicator absolute limits (`data/indicators.json`) are **illustrative demo thresholds**, not clinical values.
 - All crew members and their readings are fictional and simulated. No real people's data.
 
 **Software dependencies**
@@ -99,6 +139,7 @@ Crew ids: `ortiz`, `navarro`, `sato`. Unknown astronaut / indicator / scenario �
 | JUnit 5 | EPL 2.0 |
 | AssertJ / Mockito / Hamcrest (via starter-test) | Apache 2.0 / MIT / BSD-3-Clause |
 | Maven Wrapper | Apache 2.0 |
+| Chart.js 4.4.1 (frontend, loaded from jsDelivr CDN) | MIT |
 
 Lombok was listed as optional and is not used (plain Java records instead).
 
